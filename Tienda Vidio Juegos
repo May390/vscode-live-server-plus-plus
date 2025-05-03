@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameWorld - Tienda de Videojuegos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        body {font-family: Arial, sans-serif; background-color: #1e1e2f; color: white; margin: 0;}
+        header, footer {background-color: #141424; padding: 15px; text-align: center;}
+        nav a {margin: 0 15px; color: #00d9ff; text-decoration: none;}
+        nav a:hover {text-decoration: underline;}
+        nav input {padding: 5px; border-radius: 5px; border: none;}
+        section {padding: 20px;}
+        .producto {border: 1px solid #333; padding: 10px; margin-bottom: 10px; background-color: #292941; border-radius: 8px; box-shadow: 0 0 10px #00000055;}
+        .producto img {width: 100px; height: auto; display: block; margin-bottom: 10px;}
+        footer a {color: #00d9ff;}
+        .cta {background-color: #00d9ff; color: #141424; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;}
+        .cta:hover {background-color: #00a3cc;}
+        form input, form textarea {width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;}
+        form button {width: 100%;}
+        footer nav {margin-top: 10px;}
+        #contador-carrito {background-color: #00d9ff; color: #141424; border-radius: 12px; padding: 2px 8px; margin-left: 5px; font-weight: bold;}
+        #resumen-carrito {background-color: #292941; border: 1px solid #00d9ff; padding: 10px; margin-top: 20px; border-radius: 8px; display: none;}
+    </style>
+    <script>
+        // Simulador de carrito de compras con contador y resumen
+        document.addEventListener("DOMContentLoaded", function() {
+            let contador = 0;
+            const carrito = [];
+            const botones = document.querySelectorAll('.cta');
+            const spanContador = document.createElement('span');
+            spanContador.id = 'contador-carrito';
+            spanContador.textContent = contador;
+
+            // Agregar contador visual al menú
+            const menuProductos = document.querySelector('nav a[href="#productos"]');
+            menuProductos.textContent += ' 🛒';
+            menuProductos.appendChild(spanContador);
+
+            botones.forEach(boton => {
+                if(boton.textContent.includes('Agregar al carrito')){
+                    boton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const producto = this.parentElement.querySelector('h3').textContent;
+                        const precio = this.parentElement.querySelector('p').textContent;
+                        carrito.push({producto, precio});
+                        contador++;
+                        spanContador.textContent = contador;
+                        alert('Producto agregado al carrito');
+                        mostrarResumen();
+                    });
+                }
+            });
+
+            function mostrarResumen(){
+                const resumen = document.getElementById('resumen-carrito');
+                resumen.innerHTML = '<h3>Resumen del Carrito</h3>';
+                carrito.forEach((item, index) => {
+                    resumen.innerHTML += `<p>${index + 1}. ${item.producto} - ${item.precio}</p>`;
+                });
+                resumen.style.display = 'block';
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="GameWorld Logo" height="50">
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#conocenos">Conócenos</a>
+            <a href="#productos">Productos</a>
+            <a href="#contacto">Contacto</a>
+            <input type="text" placeholder="Buscar juegos...">
+        </nav>
+    </header>
+
+    <section id="inicio">
+        <h1>Bienvenido a GameWorld</h1>
+        <p>La mejor tienda de videojuegos donde encontrarás lo último en consolas, videojuegos, accesorios y más. ¡Compra fácil y seguro!</p>
+        <a href="#productos" class="cta">Explora nuestro catálogo</a>
+    </section>
+
+    <section id="conocenos">
+        <h2>Conócenos</h2>
+        <p>GameWorld nació en 2010 con la misión de acercarte al mundo gamer con los mejores productos y atención personalizada.</p>
+        <ul>
+            <li><strong>Misión:</strong> Ofrecer la mejor experiencia de compra de videojuegos.</li>
+            <li><strong>Visión:</strong> Ser la tienda líder en América Latina.</li>
+            <li><strong>Valores:</strong> Pasión, Innovación, Honestidad.</li>
+        </ul>
+    </section>
+
+    <section id="productos">
+        <h2>Catálogo de Productos</h2>
+        <div class="producto">
+            <img src="ps5.jpg" alt="PlayStation 5">
+            <h3>PlayStation 5</h3>
+            <p>Consola de nueva generación. Precio: $12,000 MXN</p>
+            <a href="#" class="cta">Agregar al carrito</a>
+        </div>
+        <div class="producto">
+            <img src="zelda.jpg" alt="The Legend of Zelda">
+            <h3>The Legend of Zelda: Tears of the Kingdom</h3>
+            <p>Videojuego para Nintendo Switch. Precio: $1,599 MXN</p>
+            <a href="#" class="cta">Agregar al carrito</a>
+        </div>
+
+        <div id="resumen-carrito"></div>
+    </section>
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <p><strong>Dirección:</strong> Av. Gamer 123, Ciudad Gaming, México</p>
+        <p><strong>Teléfono:</strong> +52 664 123 4567</p>
+        <p><strong>Email:</strong> contacto@gameworld.com</p>
+
+        <h3>Formulario de Contacto</h3>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <textarea placeholder="Escribe tu mensaje" required></textarea>
+            <button type="submit" class="cta">Enviar mensaje</button>
+        </form>
+
+        <h3>Ubicación</h3>
+        <iframe src="https://www.google.com/maps/embed?" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+        <h3>Equipo GameWorld</h3>
+        <img src="equipo1.jpg" alt="Juan Pérez" width="100">
+        <p>Juan Pérez - Gerente General</p>
+        <img src="equipo2.jpg" alt="Ana López" width="100">
+        <p>Ana López - Atención al cliente</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 GameWorld. Todos los derechos reservados.</p>
+        <nav>
+            <a href="#">Seguimiento de órdenes</a> |
+            <a href="#">Política de devolución</a> |
+            <a href="#">Preguntas frecuentes</a> |
+            <a href="#">Aviso de privacidad</a>
+        </nav>
+        <p>
+            <a href="#"><img src="paypal.png" alt="Paypal" height="20"></a>
+            <a href="#"><img src="visa.png" alt="Visa" height="20"></a>
+            <a href="#"><img src="facebook.png" alt="Facebook" height="20"></a>
+            <a href="#"><img src="instagram.png" alt="Instagram" height="20"></a>
+        </p>
+    </footer>
+</body>
+</html>
